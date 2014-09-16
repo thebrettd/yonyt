@@ -7,6 +7,8 @@ import os
 app = Flask(__name__)
 
 base_nyt_url = 'http://api.nytimes.com'
+nyt_api_key = os.environ.get('NYT_API_KEY')
+yo_api_key = os.environ.get('YO_API_KEY')
 
 
 @app.route('/subscribe/')
@@ -17,8 +19,7 @@ def subscribe():
     return 'Subscribed %s' % username
 
 
-def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', interval=1,
-                          nyt_api_key=os.environ.get('NYT_API_KEY')):
+def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', interval=1):
 
     request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (
         base_nyt_url, resource_type, sections, interval, nyt_api_key)
@@ -29,15 +30,15 @@ def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', i
 
 
 def yoall_with_link(link):
-    payload = {'api_token': os.environ.get('YO_API_KEY'), 'link': link}
-    print 'Will yoall with %s' % link
+    payload = {'api_token': yo_api_key, 'link': link}
+    print 'Will yoall with %s using api_key %s' % (link, yo_api_key)
     r = requests.post("http://api.justyo.co/yoall/", data=payload)
     print r.text
 
 
 def yo_user_with_link(link, username):
-    payload = {'api_token': os.environ.get('YO_API_KEY'), 'username': username, 'link': link}
-    print 'Will yo %s with %s' % (username, link)
+    payload = {'api_token': yo_api_key, 'username': username, 'link': link}
+    print 'Will yo %s with %s using api_key %s' % (username, link, yo_api_key)
     r = requests.post("http://api.justyo.co/yo/", data=payload)
     print r.text
 
