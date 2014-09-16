@@ -17,9 +17,9 @@ def subscribe():
 
 
 def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', interval=30,
-                          api_key='d70b35e4b63397f6236fcf4746a22e85:16:57738177'):
+                          nyt_api_key=os.environ.get('NYT_API_KEY')):
 
-    request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (base_nyt_url, resource_type, sections, interval, api_key)
+    request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (base_nyt_url, resource_type, sections, interval, nyt_api_key)
 
     requests_get = requests.get(request_string)
     return 'http://www.google.com'
