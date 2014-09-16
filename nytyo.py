@@ -33,10 +33,14 @@ def yo_user_with_link(link, username):
     payload = {'api_token': os.environ.get('YO_API_KEY'), 'username': username, 'link': link}
     requests.post("http://api.justyo.co/yo/", data=payload)
 
-
+@app.route('/schedule/')
 def schedule():
     popular_link = retrieve_most_popular()
     yoall_with_link(popular_link)
+
+@app.route('/ping/')
+def ping():
+    return 'Pong'
 
 if __name__ == '__main__':
     app.run()
