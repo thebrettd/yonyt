@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 base_nyt_url = 'http://api.nytimes.com'
 
+
 @app.route('/subscribe/')
 def subscribe():
     results = retrieve_most_popular()
@@ -19,7 +20,9 @@ def subscribe():
 def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', interval=1,
                           nyt_api_key=os.environ.get('NYT_API_KEY')):
 
-    request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (base_nyt_url, resource_type, sections, interval, nyt_api_key)
+    request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (
+        base_nyt_url, resource_type, sections, interval, nyt_api_key)
+
     popular_url = requests.get(request_string).json().get('results')[0].get('url')
     print 'Most popular story: %s ' % popular_url
     return popular_url
@@ -28,13 +31,16 @@ def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', i
 def yoall_with_link(link):
     payload = {'api_token': os.environ.get('YO_API_KEY'), 'link': link}
     print 'Will yoall with %s' % link
-    requests.post("http://api.justyo.co/yoall/", data=payload)
+    r = requests.post("http://api.justyo.co/yoall/", data=payload)
+    print r.text
 
 
 def yo_user_with_link(link, username):
     payload = {'api_token': os.environ.get('YO_API_KEY'), 'username': username, 'link': link}
     print 'Will yo %s with %s' % (username, link)
-    requests.post("http://api.justyo.co/yo/", data=payload)
+    r = requests.post("http://api.justyo.co/yo/", data=payload)
+    print r.text
+
 
 @app.route('/schedule/')
 def schedule():
@@ -42,9 +48,11 @@ def schedule():
     yoall_with_link(popular_link)
     return 'Yoed Everyone!', 200
 
+
 @app.route('/ping/')
 def ping():
     return 'Pong'
+
 
 if __name__ == '__main__':
     app.run()
