@@ -30,7 +30,7 @@ def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', i
 
 
 def yoall_with_link(link):
-    payload = {'api_token': yo_api_key, 'link': link}
+    payload = {'api_token': yo_api_key, 'link': link, 'username': 'THEBRETTD'}
     print 'Will yoall with %s using api_key %s' % (link, yo_api_key)
     r = requests.post("http://api.justyo.co/yoall/", data=payload)
     print r.text
