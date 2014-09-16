@@ -37,6 +37,7 @@ def yo_user_with_link(link, username):
 def schedule():
     popular_link = retrieve_most_popular()
     yoall_with_link(popular_link)
+    return 'Yoed Everyone!', 200
 
 @app.route('/ping/')
 def ping():
