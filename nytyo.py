@@ -19,6 +19,13 @@ def subscribe():
     return 'Subscribed %s' % username
 
 
+@app.route('/schedule/')
+def schedule():
+    popular_link = retrieve_most_popular()
+    yoall_with_link(popular_link)
+    return 'Yoed Everyone!', 200
+
+
 def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', interval=1):
 
     request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (
@@ -30,7 +37,7 @@ def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', i
 
 
 def yoall_with_link(link):
-    payload = {'api_token': yo_api_key, 'link': link, 'username': 'THEBRETTD'}
+    payload = {'api_token': yo_api_key, 'link': link}
     print 'Will yoall with %s using api_key %s' % (link, yo_api_key)
     r = requests.post("http://api.justyo.co/yoall/", data=payload)
     print r.text
@@ -41,13 +48,6 @@ def yo_user_with_link(link, username):
     print 'Will yo %s with %s using api_key %s' % (username, link, yo_api_key)
     r = requests.post("http://api.justyo.co/yo/", data=payload)
     print r.text
-
-
-@app.route('/schedule/')
-def schedule():
-    popular_link = retrieve_most_popular()
-    yoall_with_link(popular_link)
-    return 'Yoed Everyone!', 200
 
 
 @app.route('/ping/')
