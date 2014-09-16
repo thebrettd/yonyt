@@ -21,8 +21,7 @@ def retrieve_most_popular(resource_type='mostviewed', sections='all-sections', i
 
     request_string = '%s/svc/mostpopular/v2/%s/%s/%s/?api-key=%s' % (base_nyt_url, resource_type, sections, interval, nyt_api_key)
 
-    requests_get = requests.get(request_string)
-    return 'http://www.google.com'
+    return requests.get(request_string).json().get('results')[0].get('url')
 
 
 def yoall_with_link(link):
@@ -31,7 +30,6 @@ def yoall_with_link(link):
 
 
 def yo_user_with_link(link, username):
-    print 'Will yo %s' % username
     payload = {'api_token': os.environ.get('YO_API_KEY'), 'username': username, 'link': link}
     requests.post("http://api.justyo.co/yo/", data=payload)
 
